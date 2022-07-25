@@ -1,0 +1,131 @@
+//Halls
+app.post('/hall', async function (req, res) {
+    try {
+        const connection = await mongoClient.connect(URL);
+        const db = connection.db("halls_users");
+        await db.collection('halls').insertOne(req.body);
+        await connection.close();
+        res.json({ message: 'File Created successfully' });
+    } catch (error) {
+        console.log(error)
+    }
+})
+
+app.get('/halls', async function (req, res) {
+    try {
+        const connection = await mongoClient.connect(URL);
+        const db = connection.db('halls_users');
+        const halls = await db.collection('halls').find().toArray();
+        res.json(halls);
+        await connection.close();
+    } catch (error) {
+        console.log(error)
+    }
+
+})
+
+
+app.get('/hall/:rid', async function (req, res) {
+    try {
+        console.log(req.params.hall);
+        const connection = await mongoClient.connect(URL);
+        const db = connection.db('halls_users');
+        const hall = await db.collection('halls').findOne({ _id: mongodb.ObjectId(req.params.rid) });
+        res.json(hall);
+        await connection.close();
+    } catch (error) {
+        console.log(error)
+    }
+
+})
+
+app.put('/hall/:rid', async function (req, res) {
+    try {
+        const connection = await mongoClient.connect(URL);
+        const db = connection.db('halls_users');
+        delete req.body._id;
+        await db.collection('halls').updateOne({ _id: mongodb.ObjectId(req.params.rid) }, { $set: req.body });
+        await connection.close();
+
+    } catch (error) {
+        console.log(error);
+    }
+})
+
+app.delete('/hall/:rid', async function (req, res) {
+    try {
+        const connection = await mongoClient.connect(URL);
+        const db = connection.db('halls_users');
+        await db.collection('halls').deleteOne({ _id: mongodb.ObjectId(req.params.rid) });
+        await connection.close();
+        res.json({ message: 'hall is deleted successfully' })
+    } catch (error) {
+        console.log(error);
+    }
+})
+
+//Customer
+app.post('/customer', async function (req, res) {
+    try {
+        let date = new Date();
+        req.body.Date = date;
+        const connection = await mongoClient.connect(URL);
+        const db = connection.db("halls_users");
+        await db.collection('users').insertOne(req.body);
+        await connection.close();
+        res.json({ message: 'File Created successfully' });
+    } catch (error) {
+        console.log(error)
+    }
+})
+
+app.get('/customers', async function (req, res) {
+    try {
+
+        const connection = await mongoClient.connect(URL);
+        const db = connection.db('halls_users');
+        const customers = await db.collection('customers').find().toArray();
+        res.json(customers);
+        await connection.close();
+    } catch (error) {
+        console.log(error)
+    }
+})
+
+app.put('/customer/:cid', async function (req, res) {
+    try {
+        const connection = await mongoClient.connect(URL);
+        const db = connection.db('halls_users');
+        delete req.body._id;
+        await db.collection('customers').updateOne({ _id: mongodb.ObjectId(req.params.cid) }, { $set: req.body });
+        await connection.close();
+
+    } catch (error) {
+        console.log(error);
+    }
+})
+
+app.get('/customer/:cid', async function (req, res) {
+    try {
+
+        const connection = await mongoClient.connect(URL);
+        const db = connection.db('halls_users');
+        const customer = await db.collection('customers').findOne({ _id: mongodb.ObjectId(req.params.cid) });
+        res.json(customer);
+        await connection.close();
+    } catch (error) {
+        console.log(error)
+    }
+})
+
+app.delete('/customer/:cid', async function (req, res) {
+    try {
+        const connection = await mongoClient.connect(URL);
+        const db = connection.db('halls_users');
+        await db.collection('customers').deleteOne({ _id: mongodb.ObjectId(req.params.cid) });
+        await connection.close();
+        res.json({ message: 'customer is deleted successfully' })
+    } catch (error) {
+        console.log(error);
+    }
+})
