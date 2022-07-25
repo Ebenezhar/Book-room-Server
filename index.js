@@ -70,6 +70,4 @@ app.delete('/room/:rid', async function(req, res) {
     }   
 })
 
-
- 
 app.listen(3001);
