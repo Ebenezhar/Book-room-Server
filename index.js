@@ -155,4 +155,4 @@ app.get('/bookedCustomers', async function (req, res) {
 })
 
 
-app.listen(3001);
+app.listen(process.env.PORT || 3001);
